@@ -17,7 +17,7 @@ import { ActividadEntity } from './actividad/actividad.entity/actividad.entity';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'proyecto',
+      database: 'parcial2',
       entities: [EstudianteEntity, ActividadEntity, ResenaEntity],
       dropSchema: true,
       synchronize: true
