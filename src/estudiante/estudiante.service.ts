@@ -2,7 +2,8 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { EstudianteEntity } from './estudiante.entity/estudiante.entity';
-import { InscripcionEntity } from '../inscripcion/inscripcion.entity/inscripcion.entity';
+import { InscripcionDTO } from '../inscripcion/inscripcion.dto/inscripcion.dto';
+import {InscripcionEntity} from '../inscripcion/inscripcion.entity/inscripcion.entity'
 import { ActividadEntity } from '../actividad/actividad.entity/actividad.entity';
 
 @Injectable()
@@ -31,28 +32,36 @@ export class EstudianteService {
     return estudiante;
   }
 
-  async inscribirseActividad(estudianteId: number, actividadId: number): Promise<InscripcionEntity> {
-    const estudiante = await this.findEstudianteById(estudianteId);
-    const actividad = await this.actividadRepo.findOne({ where: { id: actividadId }, relations: ['actividades'] });
-    if (!actividad) throw new NotFoundException('Actividad no encontrada');
+async inscribirseActividad(estudianteId: number, actividadId: number): Promise<InscripcionDTO> {
+  const estudiante = await this.findEstudianteById(estudianteId);
+  const actividad = await this.actividadRepo.findOne({ where: { id: actividadId }, relations: ['actividades'] });
+  if (!actividad) throw new NotFoundException('Actividad no encontrada');
 
-    const inscritos = await this.inscripcionRepo.count({ where: { actividad: { id: actividadId } } });
-    if (inscritos >= actividad.cupoMaximo) throw new BadRequestException('No hay cupo');
-    if (actividad.estado !== 0) throw new BadRequestException('Actividad no abierta');
+  const inscritos = await this.inscripcionRepo.count({ where: { actividad: { id: actividadId } } });
+  if (inscritos >= actividad.cupoMaximo) throw new BadRequestException('No hay cupo');
+  if (actividad.estado !== 0) throw new BadRequestException('Actividad no abierta');
 
-    const yaInscrito = await this.inscripcionRepo.findOne({
-      where: {
-        estudiante: { id: estudianteId },
-        actividad: { id: actividadId }
-      }
-    });
-    if (yaInscrito) throw new BadRequestException('Ya inscrito en esta actividad');
+  const yaInscrito = await this.inscripcionRepo.findOne({
+    where: {
+      estudiante: { id: estudianteId },
+      actividad: { id: actividadId },
+    },
+  });
+  if (yaInscrito) throw new BadRequestException('Ya inscrito en esta actividad');
 
-    const nuevaInscripcion = this.inscripcionRepo.create({
-      estudiante,
-      actividad,
-      fechaInscripcion: new Date().toISOString().split('T')[0],
-    });
-    return this.inscripcionRepo.save(nuevaInscripcion);
-  }
+  const nuevaInscripcion = this.inscripcionRepo.create({
+    estudiante,
+    actividad,
+    fechaInscripcion: new Date().toISOString().split('T')[0],
+  });
+
+  const saved = await this.inscripcionRepo.save(nuevaInscripcion);
+
+  return {
+    estudianteId: saved.estudiante.id,
+    actividadId: saved.actividad.id,
+    fechaInscripcion: saved.fechaInscripcion,
+  };
+}
+
 }
