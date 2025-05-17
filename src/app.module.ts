@@ -1,27 +1,36 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { EstudianteModule } from './estudiante/estudiante.module';
-import { EstudianteEntity } from './estudiante/estudiante.entity/estudiante.entity';
 import { ActividadModule } from './actividad/actividad.module';
 import { ResenaModule } from './resena/resena.module';
-import { ResenaEntity } from './resena/resena.entity/resena.entity';
+
+import { EstudianteEntity } from './estudiante/estudiante.entity/estudiante.entity';
 import { ActividadEntity } from './actividad/actividad.entity/actividad.entity';
+import { ResenaEntity } from './resena/resena.entity/resena.entity';
+import { InscripcionEntity } from './inscripcion/inscripcion.entity/inscripcion.entity';
 
 @Module({
-  imports: [EstudianteModule, ActividadModule, ResenaModule,
+  imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'postgres',
+      password: '200511020Tr$',
       database: 'parcial2',
-      entities: [EstudianteEntity, ActividadEntity, ResenaEntity],
+      entities: [
+        EstudianteEntity,
+        ActividadEntity,
+        ResenaEntity,
+        InscripcionEntity,
+      ],
       dropSchema: true,
-      synchronize: true
+      synchronize: true,
     }),
+    EstudianteModule,
     ActividadModule,
     ResenaModule,
   ],

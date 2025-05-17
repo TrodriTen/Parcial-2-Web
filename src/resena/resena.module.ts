@@ -5,6 +5,7 @@ import { ResenaEntity } from './resena.entity/resena.entity';
 import { ActividadEntity } from '../actividad/actividad.entity/actividad.entity';
 import { EstudianteEntity } from '../estudiante/estudiante.entity/estudiante.entity';
 import { InscripcionEntity } from '../inscripcion/inscripcion.entity/inscripcion.entity';
+import { ResenaController } from './resena.controller';
 
 @Module({
   imports: [
@@ -17,5 +18,6 @@ import { InscripcionEntity } from '../inscripcion/inscripcion.entity/inscripcion
   ],
   providers: [ResenaService],
   exports: [ResenaService],
+  controllers: [ResenaController],
 })
 export class ResenaModule {}
