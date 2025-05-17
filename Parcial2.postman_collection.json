@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "cf3e694e-f5b6-46fd-8dc7-a1b3c2628b8b",
+		"name": "Parcial2",
+		"description": "Colección de pruebas para API REST del Parcial 2 (Estudiante, Actividad, Reseña)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28924530"
+	},
+	"item": [
+		{
+			"name": "Estudiante",
+			"item": [
+				{
+					"name": "Crear estudiante válido",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cedula\": 1001,\n  \"nombre\": \"Laura Test\",\n  \"correo\": \"laura@test.com\",\n  \"programa\": \"Ingenier\\u00eda\",\n  \"semestre\": 6\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/estudiante",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"estudiante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar estudiante por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/estudiante/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"estudiante",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inscribir estudiante a actividad válida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"actividadId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/estudiante/1/inscribir",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"estudiante",
+								"1",
+								"inscribir"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### POST `/api/v1/estudiante`\n\n**Descripción**:  \nCrea un nuevo estudiante.\n\n- El correo debe ser válido.\n    \n- El semestre debe estar entre 1 y 10.\n    \n\n**Respuestas esperadas**:\n\n- `201 Created`: Estudiante creado correctamente\n    \n- `400 Bad Request`: Correo inválido o semestre fuera de rango\n    \n\n### GET `/api/v1/estudiante/:id`\n\n**Descripción**:  \nConsulta los datos de un estudiante por su ID.\n\n**Respuestas esperadas**:\n\n- `200 OK`: Estudiante encontrado\n    \n- `404 Not Found`: Estudiante no existe\n    \n\n### POST `/api/v1/estudiante/:id/inscribir`\n\n**Descripción**:  \nInscribe un estudiante a una actividad.\n\n- La actividad debe estar en estado abierta (`0`)\n    \n- No debe estar lleno el cupo\n    \n- No debe existir una inscripción previa\n    \n\n**Respuestas esperadas**:\n\n- `201 Created`: Inscripción exitosa\n    \n- `400 Bad Request`: Ya inscrito o sin cupo"
+		},
+		{
+			"name": "Actividad",
+			"item": [
+				{
+					"name": "Crear actividad válida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"titulo\": \"Taller de teatro grupal 2024 V2\",\n  \"fecha\": \"2024-06-01\",\n  \"cupoMaximo\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/actividad",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"actividad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar estado a cerrada",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/actividad/1/estado",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"actividad",
+								"1",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar estado a finalizada",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"estado\": 2\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/actividad/1/estado",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"actividad",
+								"1",
+								"estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar actividad por fecha",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/actividad/fecha/2024-06-01",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"actividad",
+								"fecha",
+								"2024-06-01"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "### POST `/api/v1/actividad`\n\n**Descripción**:  \nRegistra una nueva actividad cultural.\n\n- El título debe tener al menos 15 caracteres\n    \n- No puede contener símbolos especiales\n    \n\n**Respuestas esperadas**:\n\n- `201 Created`: Actividad registrada\n    \n- `400 Bad Request`: Título inválido\n    \n\n### PUT `/api/v1/actividad/:id/estado` (cuando cambia a 1)\n\n**Descripción**:  \nCambia el estado de una actividad a **CERRADA** (`1`).\n\n- Solo si al menos el 80% del cupo está inscrito\n    \n\n**Respuestas esperadas**:\n\n- `200 OK`: Estado cambiado\n    \n- `400 Bad Request`: No cumple condición de inscritos\n    \n\n### PUT `/api/v1/actividad/:id/estado` (cuando cambia a 2)\n\n**Descripción**:  \nCambia el estado de una actividad a **FINALIZADA** (`2`).\n\n- Solo si ya se llenó el cupo\n    \n\n**Respuestas esperadas**:\n\n- `200 OK`: Estado cambiado\n    \n- `400 Bad Request`: Aún hay cupos disponibles\n    \n\n### GET `/api/v1/actividad/fecha/:fecha`\n\n**Descripción**:  \nObtiene todas las actividades programadas para una fecha específica.\n\n**Respuestas esperadas**:\n\n- `200 OK`: Lista de actividades para esa fecha"
+		},
+		{
+			"name": "Resena",
+			"item": [
+				{
+					"name": "Crear reseña válida",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"comentario\": \"Excelente evento cultural\",\n  \"calificacion\": 5,\n  \"fecha\": \"2024-06-10\",\n  \"estudianteId\": 1,\n  \"actividadId\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/resena",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"resena"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "## POST `/api/v1/resena`\n\n**Descripción**:  \nRegistra una reseña para una actividad.\n\n- El estudiante debe haber estado inscrito\n    \n- La actividad debe estar finalizada (`estado === 2`)\n    \n\n**Respuestas esperadas**:\n\n- `201 Created`: Reseña registrada correctamente\n    \n- `400 Bad Request`: Actividad no finalizada o sin inscripción"
+		}
+	]
+}
